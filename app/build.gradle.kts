@@ -35,4 +35,14 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.presentation.designsystem)
     implementation(projects.core.presentation.ui)
+
+    implementation(projects.auth.data)
+    implementation(projects.auth.domain)
+    implementation(projects.auth.presentation)
+
+    implementation(projects.run.data)
+    implementation(projects.run.domain)
+    implementation(projects.run.presentation)
+    implementation(projects.run.location)
+    implementation(projects.run.network)
 }

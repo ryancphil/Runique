@@ -11,6 +11,7 @@ coreKtx = "1.17.0"
 appcompat = "1.7.1"
 lifecycleRuntimeKtx = "2.9.4"
 desugarJdkLibs = "2.1.5"
+timber = "5.0.1"
 
 # Jetpack Compose
 composeBom = "2025.10.01"
@@ -22,6 +23,7 @@ kotlinx-serialization = "1.9.0"
 
 # Database
 room = "2.8.3"
+bson = "5.6.1"
 
 # Dependency Injection (Choose one: HILT or KOIN)
 # HILT
@@ -53,6 +55,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -75,6 +78,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 
 # Dependency Injection (Choose one: HILT or KOIN)
 # HILT
