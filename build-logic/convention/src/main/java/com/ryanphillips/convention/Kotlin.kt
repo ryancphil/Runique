@@ -23,8 +23,6 @@ internal fun Project.configureKotlinAndroid(
 
         compileOptions {
             isCoreLibraryDesugaringEnabled = true
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
         }
     }
 
@@ -41,8 +39,8 @@ internal fun Project.configureKotlinAndroid(
 internal fun Project.configureKotlinAndroidJvm() {
     // DSL doesn’t register accessor for Android variant, so we pass the java class literal.
     extensions.configure(KotlinAndroidProjectExtension::class.java) {
+        jvmToolchain(11)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
             freeCompilerArgs.add("-Xannotation-default-target=param-property")
         }
     }
@@ -50,6 +48,6 @@ internal fun Project.configureKotlinAndroidJvm() {
 
 internal fun Project.configureKotlinJvm() {
     extensions.configure<KotlinJvmProjectExtension> {
-        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+        jvmToolchain(11)
     }
 }

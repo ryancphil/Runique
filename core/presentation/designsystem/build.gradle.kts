@@ -10,4 +10,5 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     // api (vs. implementation) makes dependency accessible to consumers
     api(libs.androidx.compose.material3)
+    implementation(libs.androidx.core)
 }
