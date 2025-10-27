@@ -43,6 +43,7 @@ internal fun Project.configureKotlinAndroidJvm() {
     extensions.configure(KotlinAndroidProjectExtension::class.java) {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xannotation-default-target=param-property")
         }
     }
 }
