@@ -60,7 +60,7 @@ internal fun Project.configureBuildTypes(
  */
 private fun BuildType.configureDebugBuildType(apiKey: String) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"https://www.google.com\"")
+    buildConfigField("String", "BASE_URL", "\"http://192.168.0.224:8080\"")
 }
 
 private fun BuildType.configureReleaseBuildType(
@@ -68,7 +68,7 @@ private fun BuildType.configureReleaseBuildType(
     apiKey: String
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"https://www.google.com\"")
+    buildConfigField("String", "BASE_URL", "\"http://192.168.0.224:8080\"")
 
     // Pulled directly from the default buildTypes{} in build.gradle.kts(:app)
     isMinifyEnabled = true

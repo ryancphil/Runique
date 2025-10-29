@@ -12,14 +12,20 @@ appcompat = "1.7.1"
 lifecycleRuntimeKtx = "2.9.4"
 desugarJdkLibs = "2.1.5"
 timber = "5.0.1"
+materialIconsExtended = "1.7.8"
+material = "1.13.0"
 
 # Jetpack Compose
 composeBom = "2025.10.01"
 activityCompose = "1.11.0"
+navigationCompose = "2.9.5"
 
 # Coroutines & Serialization
 coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
+
+# Security/Crypto
+securityCryptoKtx = "1.1.0-alpha06"
 
 # Database
 room = "2.8.3"
@@ -48,14 +54,14 @@ projectMinSdkVersion = "30"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "36"
 projectVersionCode = "1"
-core = "1.17.0"
-runtime = "1.9.4"
 
 [libraries]
 # Core Libs
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
@@ -71,10 +77,14 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 # Coroutines & Serialization
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines"}
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization"}
+
+# Security/Crypto
+androidx-security-crypto-ktx = { module = "androidx.security:security-crypto-ktx", version.ref = "securityCryptoKtx" }
 
 # Database
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -113,8 +123,6 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
-androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
-androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 # Core

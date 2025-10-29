@@ -1,6 +1,7 @@
 package com.ryanphillips.auth.presentation.register
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -43,12 +46,45 @@ import com.ryanphillips.core.presentation.designsystem.component.GradientBackgro
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueActionButton
 import com.ryanphillips.core.presentation.designsystem.component.RuniquePasswordTextField
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueTextField
+import com.ryanphillips.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterScreenRoot(
+    onSignInClick: () -> Unit,
+    onSuccessfulRegistration: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    ObserveAsEvents(
+        viewModel.events
+    ) { event ->
+        when (event) {
+            is RegisterEvent.Error -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+            is RegisterEvent.RegistrationSuccess -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    R.string.registration_successful,
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+                onSuccessfulRegistration()
+            }
+        }
+    }
+
     RegisterScreen(
         state = viewModel.state,
         onAction = viewModel::onAction
@@ -83,17 +119,18 @@ private fun RegisterScreen(
                     append(stringResource(id = R.string.already_have_an_account) + " ")
                     withLink(
                         LinkAnnotation.Clickable(
-                        tag = "clickable_text",
-                        styles = TextLinkStyles(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontFamily = Poppins
-                            )
-                        ),
-                        linkInteractionListener = {
-                            onAction(RegisterAction.OnLoginClick)
-                        })) {
+                            tag = "clickable_text",
+                            styles = TextLinkStyles(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontFamily = Poppins
+                                )
+                            ),
+                            linkInteractionListener = {
+                                onAction(RegisterAction.OnLoginClick)
+                            })
+                    ) {
                         append(stringResource(id = R.string.login))
                     }
                 }
@@ -166,8 +203,7 @@ private fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     onAction(RegisterAction.OnRegisterClick)
-                }
-            )
+                })
         }
     }
 }
@@ -189,7 +225,7 @@ fun PasswordRequirement(
                 CrossIcon
             },
             contentDescription = null,
-            tint = if(isValid) RuniqueGreen else RuniqueDarkRed
+            tint = if (isValid) RuniqueGreen else RuniqueDarkRed
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
