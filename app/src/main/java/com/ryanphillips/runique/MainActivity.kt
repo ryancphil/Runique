@@ -13,6 +13,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.ryanphillips.core.presentation.designsystem.RuniqueTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
 
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
                      * Not showing our NavigationRoot composable until done checking auth.
                      */
                     if (!viewModel.state.isCheckingAuth) {
+                        Timber.e("isLoggedIn: ${viewModel.state.isLoggedIn}")
                         val navController = rememberNavController()
                         NavigationRoot(
                             navController = navController,

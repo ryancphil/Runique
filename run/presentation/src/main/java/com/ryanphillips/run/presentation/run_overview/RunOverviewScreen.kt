@@ -27,10 +27,17 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RunOverviewScreenRoot(
+    onStartRunClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 ) {
     RunOverviewScreen(
-        onAction = viewModel::onAction
+        onAction = {
+            when (it) {
+                RunOverviewAction.OnStartClick -> onStartRunClick()
+                else -> {}
+            }
+            viewModel.onAction(it)
+        }
     )
 }
 
