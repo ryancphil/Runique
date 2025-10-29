@@ -1,5 +1,10 @@
 package com.ryanphillips.core.domain.util
 
+/**
+ * PL's custom Error handling utility.
+ * * Error - an empty interface
+ * * DataError - Sealed interface that enumerates Network and Local errors.
+ */
 sealed interface DataError: Error {
     enum class Network: DataError {
         REQUEST_TIMEOUT,

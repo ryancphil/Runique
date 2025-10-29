@@ -24,9 +24,11 @@ class RegisterViewModel(
     private val repository: AuthRepository
 ): ViewModel() {
 
+    // Compose state for screen
     var state by mutableStateOf(RegisterState())
         private set
 
+    // One-Time events channel we handle in Compose with ObserveAsEvent utility.
     private val eventChannel = Channel<RegisterEvent>()
     val events = eventChannel.receiveAsFlow()
 

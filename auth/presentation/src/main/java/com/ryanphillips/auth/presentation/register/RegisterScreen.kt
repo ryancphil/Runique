@@ -86,10 +86,12 @@ fun RegisterScreenRoot(
     RegisterScreen(
         state = viewModel.state,
         onAction = {
+            // Navigation Actions handled here.
             when (it) {
                 is RegisterAction.OnLoginClick -> onSignInClick()
                 else -> Unit
             }
+            // Non-Nav actions handled by VM.
             viewModel.onAction(it)
         }
     )

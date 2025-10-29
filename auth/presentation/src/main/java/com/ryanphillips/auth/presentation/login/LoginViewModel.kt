@@ -23,9 +23,11 @@ class LoginViewModel(
     private val userDataValidator: UserDataValidator
 ) : ViewModel() {
 
+    // This is Compose State, but StateFlow would also work here.
     var state by mutableStateOf(LoginState())
         private set
 
+    // Our One-Time event handling that works in conjunction with our composable ObserveAsEvent(flow<T>) utility
     private val eventChannel = Channel<LoginEvent>()
     val events = eventChannel.receiveAsFlow()
 

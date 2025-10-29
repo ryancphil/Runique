@@ -7,6 +7,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
+/**
+ * An encrypted implementation of our SessionStorage interface.
+ */
 class EncryptedSessionStorage(
     private val sharedPreferences: SharedPreferences
 ): SessionStorage {

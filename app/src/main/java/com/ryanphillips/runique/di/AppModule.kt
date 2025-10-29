@@ -8,6 +8,11 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
+/**
+ * Koin module for our App-level dependencies.
+ * We provide a single(ton) instance of EncryptedSharedPreferences
+ * We provide our MainViewModel.
+ */
 val appModule = module {
     single<SharedPreferences> {
         EncryptedSharedPreferences(

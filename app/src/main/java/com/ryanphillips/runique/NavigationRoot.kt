@@ -11,6 +11,11 @@ import com.ryanphillips.auth.presentation.intro.IntroScreenRoot
 import com.ryanphillips.auth.presentation.login.LoginScreenRoot
 import com.ryanphillips.auth.presentation.register.RegisterScreenRoot
 
+/**
+ * Our entry-point for app navigation. Feature modules shouldn't be aware
+ * of each other, so we leverage lambdas in feature screen composables that
+ * bubble up to this NavigationHostController that handles app navigation.
+ */
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
@@ -25,6 +30,11 @@ fun NavigationRoot(
     }
 }
 
+/**
+ * private Extension functions on `NavGraphBuilder` allow us to modularize
+ * our app's nav graph by individual features and keeps the `NavigationRoot`
+ * clean and readable.
+ */
 private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     navigation(
         startDestination = "intro",

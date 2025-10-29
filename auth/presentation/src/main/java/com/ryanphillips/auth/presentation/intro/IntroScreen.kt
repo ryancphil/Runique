@@ -35,7 +35,7 @@ import com.ryanphillips.core.presentation.designsystem.component.RuniqueOutlined
  * aware of feature-to-feature navigation, it should be handled
  * above architecturally speaking. So we will leverage lambdas for
  * navigation within the features that can be leveraged above by
- * the NavController.
+ * the NavController. (see :app:NavigationRoot.kt)
  */
 @Composable
 fun IntroScreenRoot(

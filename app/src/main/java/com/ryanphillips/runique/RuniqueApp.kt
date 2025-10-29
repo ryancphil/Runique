@@ -13,10 +13,17 @@ import timber.log.Timber
 class RuniqueApp: Application() {
     override fun onCreate() {
         super.onCreate()
+        configureTimber()
+        configureKoin()
+    }
+
+    private fun configureTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+    }
 
+    private fun configureKoin() {
         startKoin {
             androidLogger()
             androidContext(this@RuniqueApp)

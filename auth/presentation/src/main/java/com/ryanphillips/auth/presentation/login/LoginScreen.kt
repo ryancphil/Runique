@@ -76,6 +76,11 @@ fun LoginScreenRoot(
     LoginScreen(
         state = viewModel.state,
         onAction = {
+            /**
+             * Actions that cause navigation need to be handled by
+             * our screen lambdas so they delegate to our app level
+             * navigation. Other actions are handled by our viewModel.
+             */
             when (it) {
                 is LoginAction.OnRegisterClick -> onSignUpClick()
                 else -> Unit

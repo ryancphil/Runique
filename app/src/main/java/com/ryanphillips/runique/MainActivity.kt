@@ -16,11 +16,26 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
+    /**
+     * Our Screen level viewmodels are able to be injected directly into
+     * Composables with `koinViewModel()` but at the activity level,
+     * we use koin's `by viewModel<T>` api
+     */
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        /**
+         * androidx.core provides a splashscreen api.
+         * Here we are showing the splashscreen for as long as
+         * we are checking the auth state of the user.
+         *
+         * This splashscreen api required some XML work in our :app:values folder.
+         * * splash.xml
+         * * themes.xml
+         */
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 viewModel.state.isCheckingAuth
@@ -33,6 +48,9 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background),
                 ) {
+                    /**
+                     * Not showing our NavigationRoot composable until done checking auth.
+                     */
                     if (!viewModel.state.isCheckingAuth) {
                         val navController = rememberNavController()
                         NavigationRoot(
