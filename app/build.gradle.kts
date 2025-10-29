@@ -25,6 +25,9 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.timber)
 
+    // Splash screen
+    implementation(libs.androidx.core.splashscreen)
+
     // Crypto
     implementation(libs.androidx.security.crypto.ktx)
 
