@@ -1,6 +1,5 @@
 package com.ryanphillips.auth.presentation.register
 
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,7 +38,6 @@ import com.ryanphillips.core.presentation.designsystem.CrossIcon
 import com.ryanphillips.core.presentation.designsystem.EmailIcon
 import com.ryanphillips.core.presentation.designsystem.Poppins
 import com.ryanphillips.core.presentation.designsystem.RuniqueDarkRed
-import com.ryanphillips.core.presentation.designsystem.RuniqueGray
 import com.ryanphillips.core.presentation.designsystem.RuniqueGreen
 import com.ryanphillips.core.presentation.designsystem.RuniqueTheme
 import com.ryanphillips.core.presentation.designsystem.component.GradientBackground
@@ -87,7 +85,13 @@ fun RegisterScreenRoot(
 
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = {
+            when (it) {
+                is RegisterAction.OnLoginClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(it)
+        }
     )
 }
 
@@ -113,7 +117,7 @@ private fun RegisterScreen(
                 withStyle(
                     style = SpanStyle(
                         fontFamily = Poppins,
-                        color = RuniqueGray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 ) {
                     append(stringResource(id = R.string.already_have_an_account) + " ")
