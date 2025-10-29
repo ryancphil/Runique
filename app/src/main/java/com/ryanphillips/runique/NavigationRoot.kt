@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import com.ryanphillips.auth.presentation.intro.IntroScreenRoot
 import com.ryanphillips.auth.presentation.login.LoginScreenRoot
 import com.ryanphillips.auth.presentation.register.RegisterScreenRoot
+import com.ryanphillips.run.presentation.run_overview.RunOverviewScreenRoot
 
 /**
  * Our entry-point for app navigation. Feature modules shouldn't be aware
@@ -97,7 +98,7 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable("run_overview") {
-            Text("run overview")
+            RunOverviewScreenRoot()
         }
     }
 }

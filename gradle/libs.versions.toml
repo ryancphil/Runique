@@ -16,17 +16,24 @@ materialIconsExtended = "1.7.8"
 material = "1.13.0"
 coreSplashscreen = "1.0.1"
 
+# Maps
+maps = "6.12.1"
+mapsUtils = "5.2.1"
+playServicesMaps = "19.2.0"
+secretsPlugin = "2.0.1"
+
 # Jetpack Compose
 composeBom = "2025.10.01"
 activityCompose = "1.11.0"
 navigationCompose = "2.9.5"
+coilCompose = "2.7.0"
 
 # Coroutines & Serialization
 coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 
 # Security/Crypto
-securityCryptoKtx = "1.1.0-alpha06"
+securityCryptoKtx = "1.1.0"
 
 # Database
 room = "2.8.3"
@@ -55,6 +62,8 @@ projectMinSdkVersion = "30"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "36"
 projectVersionCode = "1"
+lifecycleViewmodelKtx = "2.9.4"
+runtime = "1.9.4"
 
 [libraries]
 # Core Libs
@@ -66,6 +75,11 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+# Maps
+google-maps-android-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils"}
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -80,6 +94,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 # Coroutines & Serialization
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines"}
@@ -125,6 +140,8 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 # Core
@@ -135,6 +152,9 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Maps
+mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin"}
 
 # Room
 room = { id = "androidx.room", version.ref = "room" }
