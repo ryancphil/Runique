@@ -48,6 +48,14 @@ fun Double.toFormattedKm(): String {
     return "${this.roundToDecimals(1)} km"
 }
 
+fun Double.toFormattedKmh(): String {
+    return "${roundToDecimals(1)} km/h"
+}
+
+fun Int.toFormattedMeters(): String {
+    return "$this m"
+}
+
 private fun Double.roundToDecimals(
     decimalCount: Int
 ): Double {
