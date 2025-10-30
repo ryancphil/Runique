@@ -32,9 +32,9 @@ import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun RunDataCard(
-    modifier: Modifier = Modifier,
     elapsedTime: Duration,
-    runData: RunData
+    runData: RunData,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -44,13 +44,14 @@ fun RunDataCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RunDataItem(
-            title = stringResource(R.string.duration),
+            title = stringResource(id = R.string.duration),
             value = elapsedTime.formatted(),
             valueFontSize = 32.sp
         )
-        Spacer(modifier = modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
@@ -74,9 +75,9 @@ fun RunDataCard(
 
 @Composable
 private fun RunDataItem(
-    modifier: Modifier = Modifier,
     title: String,
     value: String,
+    modifier: Modifier = Modifier,
     valueFontSize: TextUnit = 16.sp
 ) {
     Column(
@@ -103,8 +104,8 @@ private fun RunDataCardPreview() {
         RunDataCard(
             elapsedTime = 10.minutes,
             runData = RunData(
-                distanceMeters = 123,
-                pace = 5.minutes
+                distanceMeters = 3425,
+                pace = 3.minutes
             )
         )
     }

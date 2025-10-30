@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.ryanphillips.core.presentation.designsystem.RuniqueTheme
 import com.ryanphillips.core.presentation.designsystem.StartIcon
 import com.ryanphillips.core.presentation.designsystem.StopIcon
+import com.ryanphillips.core.presentation.designsystem.component.RuniqueActionButton
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueDialog
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueFloatingActionButton
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueOutlinedActionButton
@@ -33,6 +34,8 @@ import com.ryanphillips.core.presentation.designsystem.component.RuniqueScaffold
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueToolbar
 import com.ryanphillips.run.presentation.R
 import com.ryanphillips.run.presentation.run_active.component.RunDataCard
+import com.ryanphillips.run.presentation.run_active.maps.TrackerMap
+import com.ryanphillips.run.presentation.run_active.service.ActiveRunService
 import com.ryanphillips.run.presentation.util.hasLocationPermission
 import com.ryanphillips.run.presentation.util.hasNotificationPermission
 import com.ryanphillips.run.presentation.util.shouldShowLocationPermissionRationale
@@ -41,10 +44,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ActiveRunScreenRoot(
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
     ActiveRunScreen(
         state = viewModel.state,
+        onServiceToggle = onServiceToggle,
         onAction = viewModel::onAction
     )
 }
@@ -52,6 +57,7 @@ fun ActiveRunScreenRoot(
 @Composable
 private fun ActiveRunScreen(
     state: ActiveRunState,
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     onAction: (ActiveRunAction) -> Unit
 ) {
     val context = LocalContext.current
@@ -105,6 +111,18 @@ private fun ActiveRunScreen(
         }
     }
 
+    LaunchedEffect(state.isRunFinished) {
+        if (state.isRunFinished) {
+            onServiceToggle(false)
+        }
+    }
+
+    LaunchedEffect(state.shouldTrack) {
+        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+            onServiceToggle(true)
+        }
+    }
+
     RuniqueScaffold(
         withGradient = false,
         topAppBar = {
@@ -140,6 +158,13 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = { /* Empty for now */ },
+                modifier = Modifier.fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,
@@ -150,6 +175,37 @@ private fun ActiveRunScreen(
             )
         }
     }
+
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RuniqueDialog(
+            title = stringResource(id = R.string.running_is_paused),
+            onDismiss = {
+                onAction(ActiveRunAction.OnResumeRunClick)
+            },
+            description = stringResource(id = R.string.resume_or_finish_run),
+            primaryButton = {
+                RuniqueActionButton(
+                    text = stringResource(id = R.string.resume),
+                    isLoading = false,
+                    onClick = {
+                        onAction(ActiveRunAction.OnResumeRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            },
+            secondaryButton = {
+                RuniqueOutlinedActionButton(
+                    text = stringResource(id = R.string.finish),
+                    isLoading = state.isSavingRun,
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        )
+    }
+
     if (state.showLocationRationale || state.showNotificationRationale) {
         RuniqueDialog(
             title = stringResource(id = R.string.permission_required),
@@ -208,6 +264,8 @@ private fun ActiveRunScreenPreview() {
     RuniqueTheme {
         ActiveRunScreen(
             state = ActiveRunState(),
-            onAction = {})
+            onServiceToggle = {},
+            onAction = {}
+        )
     }
 }
