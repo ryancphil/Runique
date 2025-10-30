@@ -5,6 +5,7 @@ import com.ryanphillips.auth.data.di.authDataModule
 import com.ryanphillips.auth.presentation.di.authViewModelModule
 import com.ryanphillips.core.data.di.coreDataModule
 import com.ryanphillips.core.database.di.databaseModule
+import com.ryanphillips.run.data.di.runDataModule
 import com.ryanphillips.run.location.di.locationModule
 import com.ryanphillips.run.network.di.networkModule
 import com.ryanphillips.run.presentation.run_overview.di.runPresentationModule
@@ -14,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -37,6 +39,7 @@ class RuniqueApp: Application() {
         startKoin {
             androidLogger()
             androidContext(this@RuniqueApp)
+            workManagerFactory()
             modules(
                 authDataModule,
                 authViewModelModule,
@@ -45,7 +48,8 @@ class RuniqueApp: Application() {
                 runPresentationModule,
                 locationModule,
                 databaseModule,
-                networkModule
+                networkModule,
+                runDataModule
             )
         }
     }
