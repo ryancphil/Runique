@@ -4,7 +4,9 @@ package com.ryanphillips.run.presentation.run_active
 
 import android.Manifest
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -32,6 +34,7 @@ import com.ryanphillips.core.presentation.designsystem.component.RuniqueFloating
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueOutlinedActionButton
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueScaffold
 import com.ryanphillips.core.presentation.designsystem.component.RuniqueToolbar
+import com.ryanphillips.core.presentation.ui.ObserveAsEvents
 import com.ryanphillips.run.presentation.R
 import com.ryanphillips.run.presentation.run_active.component.RunDataCard
 import com.ryanphillips.run.presentation.run_active.maps.TrackerMap
@@ -41,16 +44,46 @@ import com.ryanphillips.run.presentation.util.hasNotificationPermission
 import com.ryanphillips.run.presentation.util.shouldShowLocationPermissionRationale
 import com.ryanphillips.run.presentation.util.shouldShowNotificationPermissionRationale
 import org.koin.androidx.compose.koinViewModel
+import java.io.ByteArrayOutputStream
 
 @Composable
 fun ActiveRunScreenRoot(
+    onFinish: () -> Unit,
+    onBack: () -> Unit,
     onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(
+        viewModel.events
+    ) { event ->
+        when (event) {
+            is ActiveRunEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            ActiveRunEvent.RunSaved -> {
+                onFinish()
+            }
+        }
+
+    }
     ActiveRunScreen(
         state = viewModel.state,
         onServiceToggle = onServiceToggle,
-        onAction = viewModel::onAction
+        onAction = {action ->
+            when (action) {
+                ActiveRunAction.OnBackClick -> {
+                    if (!viewModel.state.hasStartedRunning) {
+                        onBack()
+                    }
+                } else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
@@ -106,7 +139,7 @@ private fun ActiveRunScreen(
             )
         )
 
-        if(!showLocationRationale && !showNotificationRationale) {
+        if (!showLocationRationale && !showNotificationRationale) {
             permissionLauncher.requestRuniquePermissions(context)
         }
     }
@@ -131,8 +164,7 @@ private fun ActiveRunScreen(
                 title = stringResource(R.string.active_run),
                 onBackClick = {
                     onAction(ActiveRunAction.OnBackClick)
-                }
-            )
+                })
         },
         floatingActionButton = {
             RuniqueFloatingActionButton(
@@ -151,8 +183,7 @@ private fun ActiveRunScreen(
                     stringResource(R.string.start_run)
                 }
             )
-        }
-    ) {
+        }) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -162,7 +193,17 @@ private fun ActiveRunScreen(
                 isRunFinished = state.isRunFinished,
                 currentLocation = state.currentLocation,
                 locations = state.runData.locations,
-                onSnapshot = { /* Empty for now */ },
+                onSnapshot = { bmp ->
+                    val stream = ByteArrayOutputStream()
+                    stream.use {
+                        bmp.compress(
+                            Bitmap.CompressFormat.JPEG,
+                            80,
+                            it
+                        )
+                    }
+                    onAction(ActiveRunAction.OnRunProcessed(stream.toByteArray()))
+                },
                 modifier = Modifier.fillMaxSize()
             )
             RunDataCard(
@@ -202,8 +243,7 @@ private fun ActiveRunScreen(
                     },
                     modifier = Modifier.weight(1f)
                 )
-            }
-        )
+            })
     }
 
     if (state.showLocationRationale || state.showNotificationRationale) {
@@ -214,9 +254,11 @@ private fun ActiveRunScreen(
                 state.showLocationRationale && state.showNotificationRationale -> {
                     stringResource(id = R.string.location_notification_rationale)
                 }
+
                 state.showLocationRationale -> {
                     stringResource(id = R.string.location_rationale)
                 }
+
                 else -> {
                     stringResource(id = R.string.notification_rationale)
                 }
@@ -228,10 +270,8 @@ private fun ActiveRunScreen(
                     onClick = {
                         onAction(ActiveRunAction.DismissRationaleDialog)
                         permissionLauncher.requestRuniquePermissions(context)
-                    }
-                )
-            }
-        )
+                    })
+            })
     }
 }
 
@@ -245,7 +285,7 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermissions(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
     )
-    val notificationPermission = if(Build.VERSION.SDK_INT >= 33) {
+    val notificationPermission = if (Build.VERSION.SDK_INT >= 33) {
         arrayOf(Manifest.permission.POST_NOTIFICATIONS)
     } else arrayOf()
 
@@ -253,6 +293,7 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermissions(
         !hasLocationPermission && !hasNotificationPermission -> {
             launch(locationPermissions + notificationPermission)
         }
+
         !hasLocationPermission -> launch(locationPermissions)
         !hasNotificationPermission -> launch(notificationPermission)
     }
@@ -265,7 +306,6 @@ private fun ActiveRunScreenPreview() {
         ActiveRunScreen(
             state = ActiveRunState(),
             onServiceToggle = {},
-            onAction = {}
-        )
+            onAction = {})
     }
 }

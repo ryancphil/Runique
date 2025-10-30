@@ -4,7 +4,9 @@ import android.app.Application
 import com.ryanphillips.auth.data.di.authDataModule
 import com.ryanphillips.auth.presentation.di.authViewModelModule
 import com.ryanphillips.core.data.di.coreDataModule
+import com.ryanphillips.core.database.di.databaseModule
 import com.ryanphillips.run.location.di.locationModule
+import com.ryanphillips.run.network.di.networkModule
 import com.ryanphillips.run.presentation.run_overview.di.runPresentationModule
 import com.ryanphillips.runique.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +43,9 @@ class RuniqueApp: Application() {
                 appModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule,
+                networkModule
             )
         }
     }
