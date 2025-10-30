@@ -21,6 +21,7 @@ maps = "6.12.1"
 mapsUtils = "5.2.1"
 playServicesMaps = "19.2.0"
 secretsPlugin = "2.0.1"
+gmsLocation = "21.2.0"
 
 # Jetpack Compose
 composeBom = "2025.10.01"
@@ -80,6 +81,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 google-maps-android-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils"}
+google-android-gms-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "gmsLocation"}
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

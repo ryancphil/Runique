@@ -26,7 +26,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // TODO: Modify [RuniqueToolbar] & [RuniqueScaffold] to support edge-to-edge, then uncomment this.
+        // enableEdgeToEdge()
 
         /**
          * androidx.core provides a splashscreen api.
