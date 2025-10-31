@@ -35,6 +35,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RunOverviewScreenRoot(
     onStartRunClick: () -> Unit,
+    onLogoutClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 ) {
     RunOverviewScreen(
@@ -42,6 +43,7 @@ fun RunOverviewScreenRoot(
         onAction = {
             when (it) {
                 RunOverviewAction.OnStartClick -> onStartRunClick()
+                RunOverviewAction.OnLogoutClick -> onLogoutClick()
                 else -> {}
             }
             viewModel.onAction(it)

@@ -1,5 +1,6 @@
 package com.ryanphillips.core.data.run
 
+import com.ryanphillips.core.data.networking.get
 import com.ryanphillips.core.database.dao.RunPendingSyncDao
 import com.ryanphillips.core.database.mapper.toRun
 import com.ryanphillips.core.domain.SessionStorage
@@ -10,9 +11,12 @@ import com.ryanphillips.core.domain.run.RunId
 import com.ryanphillips.core.domain.run.RunRepository
 import com.ryanphillips.core.domain.run.SyncRunScheduler
 import com.ryanphillips.core.domain.util.DataError
-import com.ryanphillips.core.domain.util.Result
 import com.ryanphillips.core.domain.util.EmptyResult
+import com.ryanphillips.core.domain.util.Result
 import com.ryanphillips.core.domain.util.asEmptyDataResult
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.authProvider
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -26,7 +30,8 @@ class OfflineFirstRunRepository(
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
     private val sessionStorage: SessionStorage,
-    private val syncRunScheduler: SyncRunScheduler
+    private val syncRunScheduler: SyncRunScheduler,
+    private val client: HttpClient
 ): RunRepository {
 
     override fun getRuns(): Flow<List<Run>> {
@@ -147,5 +152,19 @@ class OfflineFirstRunRepository(
             createJobs.forEach { it.join() }
             deleteJobs.forEach { it.join() }
         }
+    }
+
+    override suspend fun deleteAllRuns() {
+        localRunDataSource.deleteAllRuns()
+    }
+
+    override suspend fun logout(): EmptyResult<DataError.Network> {
+        val result = client.get<Unit>(
+            route = "/logout"
+        ).asEmptyDataResult()
+
+        client.authProvider<BearerAuthProvider>()?.clearToken()
+
+        return result
     }
 }
