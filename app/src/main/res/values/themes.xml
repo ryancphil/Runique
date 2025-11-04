@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Runique" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
+    <!-- Starting theme (shown while app loads) -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#222222</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_scaled_down</item>
+        <item name="android:actionBarStyle">@style/Theme.Material3.DayNight.NoActionBar</item>
+        <!-- Use your main app theme after splash -->
+        <item name="postSplashScreenTheme">@style/Theme.Runique</item>
     </style>
+
+    <!-- Main app theme -->
+    <style name="Theme.Runique" parent="Theme.Material3.DayNight.NoActionBar" />
 </resources>

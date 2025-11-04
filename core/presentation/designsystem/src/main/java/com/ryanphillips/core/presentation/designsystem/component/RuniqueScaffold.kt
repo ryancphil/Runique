@@ -18,6 +18,7 @@ fun RuniqueScaffold(
 ) {
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets.safeDrawing,
         topBar = topAppBar,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = FabPosition.Center

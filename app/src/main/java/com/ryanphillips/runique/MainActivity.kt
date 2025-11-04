@@ -25,17 +25,12 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // TODO: Modify [RuniqueToolbar] & [RuniqueScaffold] to support edge-to-edge, then uncomment this.
-        // enableEdgeToEdge()
-
         /**
          * androidx.core provides a splashscreen api.
          * Here we are showing the splashscreen for as long as
          * we are checking the auth state of the user.
          *
          * This splashscreen api required some XML work in our :app:values folder.
-         * * splash.xml
          * * themes.xml
          */
         installSplashScreen().apply {
@@ -43,6 +38,9 @@ class MainActivity : ComponentActivity() {
                 viewModel.state.isCheckingAuth
             }
         }
+
+        super.onCreate(savedInstanceState)
+         enableEdgeToEdge()
         setContent {
             RuniqueTheme {
                 Surface(

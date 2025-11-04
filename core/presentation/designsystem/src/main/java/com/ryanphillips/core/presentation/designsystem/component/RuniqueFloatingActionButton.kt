@@ -26,10 +26,9 @@ fun RuniqueFloatingActionButton(
     onClick: () -> Unit,
     contentDescription: String? = null,
     iconSize: Dp = 25.dp
-
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(75.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
